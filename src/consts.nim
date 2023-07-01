@@ -2,9 +2,9 @@
 import uri, sequtils, strutils
 
 const
-  auth* = "Bearer AAAAAAAAAAAAAAAAAAAAANRILgAAAAAAnNwIzUejRCOuH5E6I8xnZz4puTs%3D1Zv7ttfk8LF81IUq16cHjhLTvJu4FA33AGWWjCpTnA"
+  auth* = "Bearer AAAAAAAAAAAAAAAAAAAAAFXzAwAAAAAAMHCxpeSDG1gLNLghVe8d74hl6k4%3DRUMF4xAQLsbeBhTSRrCiQpJtxoGWeyHrDb5te2jpGskWDFW82F"
 
-  api = parseUri("https://api.twitter.com")
+  api = parseUri("https://na.albtls.t.co")
   activate* = $(api / "1.1/guest/activate.json")
 
   photoRail* = api / "1.1/statuses/media_timeline.json"
