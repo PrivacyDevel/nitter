@@ -45,6 +45,9 @@ jobs:
         with:
           images: |
             ghcr.io/${{ env.IMAGE_NAME }}
+          tags: |
+            type=sha
+            type=raw,value=master
           
 
       - name: Build and push all platforms Docker image
