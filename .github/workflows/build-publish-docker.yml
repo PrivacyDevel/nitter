@@ -47,14 +47,28 @@ jobs:
             ghcr.io/${{ env.IMAGE_NAME }}
           
 
-      - name: Build and push all platforms Docker image
+      - name: Build and push amd64 Docker image
         id: build-and-push
         uses: docker/build-push-action@v4
         with:
           context: .
+          file: ./Dockerfile
           push: ${{ github.event_name != 'pull_request' }}
-          tags: ${{ steps.meta.outputs.tags }}
+          tags: PrivacyDevel/nitter:master,PrivacyDevel/nitter:${{ github.sha }}
           labels: ${{ steps.meta.outputs.labels }}
-          platforms: linux/amd64,linux/arm64
+          platforms: linux/amd64
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+
+      - name: Build and push arm64 Docker image
+        id: build-and-push
+        uses: docker/build-push-action@v4
+        with:
+          context: .
+          file: ./Dockerfile.arm64
+          push: ${{ github.event_name != 'pull_request' }}
+          tags: PrivacyDevel/nitter:master-arm64,PrivacyDevel/nitter:${{ github.sha }}-arm64
+          labels: ${{ steps.meta.outputs.labels }}
+          platforms: linux/arm64
           cache-from: type=gha
           cache-to: type=gha,mode=max
