@@ -54,7 +54,7 @@ jobs:
           context: .
           file: ./Dockerfile
           push: ${{ github.event_name != 'pull_request' }}
-          tags: PrivacyDevel/nitter:master,PrivacyDevel/nitter:${{ github.sha }}
+          tags: ${{ env.IMAGE_NAME }}:master,${{ env.IMAGE_NAME }}:${{ github.sha }}
           labels: ${{ steps.meta.outputs.labels }}
           platforms: linux/amd64
           cache-from: type=gha
@@ -67,7 +67,7 @@ jobs:
           context: .
           file: ./Dockerfile.arm64
           push: ${{ github.event_name != 'pull_request' }}
-          tags: PrivacyDevel/nitter:master-arm64,PrivacyDevel/nitter:${{ github.sha }}-arm64
+          tags: ${{ env.IMAGE_NAME }}:master-arm64,${{ env.IMAGE_NAME }}:${{ github.sha }}-arm64
           labels: ${{ steps.meta.outputs.labels }}
           platforms: linux/arm64
           cache-from: type=gha
