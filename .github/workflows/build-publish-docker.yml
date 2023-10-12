@@ -59,7 +59,7 @@ jobs:
           context: .
           file: ./Dockerfile
           push: ${{ github.event_name != 'pull_request' }}
-          tags: ${{ env.REPO_LC }}:master,${{ env.REPO_LC }}:${{ github.sha }}
+          tags: ghcr.io/${{ env.REPO_LC }}:master,ghcr.io/${{ env.REPO_LC }}:${{ github.sha }}
           labels: ${{ steps.meta.outputs.labels }}
           platforms: linux/amd64
           cache-from: type=gha
@@ -72,7 +72,7 @@ jobs:
           context: .
           file: ./Dockerfile.arm64
           push: ${{ github.event_name != 'pull_request' }}
-          tags: ${{ env.REPO_LC }}:master-arm64,${{ env.REPO_LC }}:${{ github.sha }}-arm64
+          tags: ghcr.io/${{ env.REPO_LC }}:master-arm64,ghcr.io/${{ env.REPO_LC }}:${{ github.sha }}-arm64
           labels: ${{ steps.meta.outputs.labels }}
           platforms: linux/arm64
           cache-from: type=gha
