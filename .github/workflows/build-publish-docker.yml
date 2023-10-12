@@ -46,11 +46,11 @@ jobs:
           images: |
             ghcr.io/${{ env.IMAGE_NAME }}
           
-      - name: set lower case repo name
+      - name: set lower case owner name
         run: |
-          echo "REPO_LC=${REPO,,}" >>${GITHUB_ENV}
+          echo "OWNER_LC=${OWNER,,}" >>${GITHUB_ENV}
         env:
-          REPO: '${{ github.repository }}'
+          OWNER: '${{ github.repository_owner }}'
 
       - name: Build and push amd64 Docker image
         id: build-and-push-amd64
@@ -59,7 +59,7 @@ jobs:
           context: .
           file: ./Dockerfile
           push: ${{ github.event_name != 'pull_request' }}
-          tags: ghcr.io/${{ env.REPO_LC }}:master,ghcr.io/${{ env.REPO_LC }}:${{ github.sha }}
+          tags: ${{ env.OWNER_LC }}/nitter:master,${{ env.OWNER_LC }}/nitter:${{ github.sha }}
           labels: ${{ steps.meta.outputs.labels }}
           platforms: linux/amd64
           cache-from: type=gha
@@ -72,7 +72,7 @@ jobs:
           context: .
           file: ./Dockerfile.arm64
           push: ${{ github.event_name != 'pull_request' }}
-          tags: ghcr.io/${{ env.REPO_LC }}:master-arm64,ghcr.io/${{ env.REPO_LC }}:${{ github.sha }}-arm64
+          tags: ${{ env.OWNER_LC }}/nitter-arm64:master,${{ env.OWNER_LC }}/nitter-arm64:${{ github.sha }}-arm64
           labels: ${{ steps.meta.outputs.labels }}
           platforms: linux/arm64
           cache-from: type=gha
