@@ -38,7 +38,7 @@ proc renderProfileTabs*(query: Query; username: string; cfg: Config): VNode =
       a(href=(link & "/with_replies")): text "Tweets & Replies"
     li(class=query.getTabClass(media)):
       a(href=(link & "/media")): text "Media"
-    if len(cfg.xCsrfToken) != 0 and len(cfg.cookieHeader) != 0:
+    if len(cfg.xCsrfToken) != 0 and len(cfg.cookieHeader) != 0 and len(cfg.bearerToken) != 0:
       li(class=query.getTabClass(favorites)):
         a(href=(link & "/favorites")): text "Likes"
     li(class=query.getTabClass(tweets)):

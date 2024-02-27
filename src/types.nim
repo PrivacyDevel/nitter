@@ -285,6 +285,7 @@ type
 
     cookieHeader*: string
     xCsrfToken*: string
+    bearerToken*: string
 
   Rss* = object
     feed*, cursor*: string
