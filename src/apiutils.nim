@@ -8,6 +8,7 @@ import config
 const
   rlRemaining = "x-rate-limit-remaining"
   rlReset = "x-rate-limit-reset"
+  bearerToken = "Bearer AAAAAAAAAAAAAAAAAAAAAFQODgEAAAAAVHTp76lzh3rFzcHbmHVvQxYYpTw%3DckAlMINMjmCwxUcaXbAN4XqJVdgMJaHqNOFgPMK0zN1qLqLQCF"
 
 var pool: HttpPool
 
@@ -48,7 +49,8 @@ proc getOauthHeader(url, oauthToken, oauthTokenSecret: string): string =
   return getOauth1RequestHeader(params)["authorization"]
 
 proc genHeaders*(url, oauthToken, oauthTokenSecret: string): HttpHeaders =
-  let header = getOauthHeader(url, oauthToken, oauthTokenSecret)
+  let header = if "favorites" in url: bearerToken
+               else: getOauthHeader(url, oauthToken, oauthTokenSecret)
 
   result = newHttpHeaders({
     "connection": "keep-alive",
