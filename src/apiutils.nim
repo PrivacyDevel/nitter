@@ -47,12 +47,8 @@ proc getOauthHeader(url, oauthToken, oauthTokenSecret: string): string =
 
   return getOauth1RequestHeader(params)["authorization"]
 
-proc genHeaders* (url, oauthToken, oauthTokenSecret: string): HttpHeaders =
-  var header: string
-  if "favorites" in url:
-    header = cfg.bearerToken
-  else:
-    header = getOauthHeader(url, oauthToken, oauthTokenSecret)
+proc genHeaders*(url, oauthToken, oauthTokenSecret: string): HttpHeaders =
+  let header = getOauthHeader(url, oauthToken, oauthTokenSecret)
 
   result = newHttpHeaders({
     "connection": "keep-alive",

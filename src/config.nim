@@ -43,8 +43,7 @@ proc getConfig*(path: string): (Config, parseCfg.Config) =
     proxy: cfg.get("Config", "proxy", ""),
     proxyAuth: cfg.get("Config", "proxyAuth", ""),
     cookieHeader: cfg.get("Config", "cookieHeader", ""),
-    xCsrfToken: cfg.get("Config", "xCsrfToken", ""),
-    bearerToken: cfg.get("Config", "bearerToken","")
+    xCsrfToken: cfg.get("Config", "xCsrfToken", "")
   )
 
   return (conf, cfg)
