@@ -18,6 +18,17 @@ permissions:
 jobs:
   build:
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        image:
+          - platform: linux/amd64
+            dockerfile: Dockerfile
+            tag-main: latest
+            tag-alt: ${{ github.sha }}
+          - platform: linux/arm64
+            dockerfile: Dockerfile.arm64
+            tag-main: latest-arm64
+            tag-alt: ${{ github.sha }}-arm64
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
@@ -53,8 +64,11 @@ jobs:
         with:
           context: .
           push: ${{ github.event_name != 'pull_request' }}
-          tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
-          platforms: linux/amd64,linux/arm64
+          platforms: ${{ matrix.image.platform }}
+          file: ${{ matrix.image.dockerfile }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
+          tags: |
+            ghcr.io/${{ env.IMAGE_NAME }}:${{ matrix.image.tag-main }}
+            ghcr.io/${{ env.IMAGE_NAME }}:${{ matrix.image.tag-alt }}
