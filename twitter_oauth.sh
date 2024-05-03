@@ -22,13 +22,29 @@ flow_1=$(curl -si -XPOST "${base_url}?flow_name=login" "${header[@]}")
 att=$(sed -En 's/^att: (.*)\r/\1/p' <<< "${flow_1}")
 flow_token=$(sed -n '$p' <<< "${flow_1}" | jq -r .flow_token)
 
+if [[ -z "$flow_1" || -z "$flow_token" ]]; then
+  echo "Couldn't retrieve flow token (twitter not reachable?)"
+  exit 1
+fi
+
 # username
 token_2=$(curl -s -XPOST "${base_url}" -H "att: ${att}" "${header[@]}" \
   -d '{"flow_token":"'"${flow_token}"'","subtask_inputs":[{"subtask_id":"LoginEnterUserIdentifierSSO","settings_list":{"setting_responses":[{"key":"user_identifier","response_data":{"text_data":{"result":"'"${username}"'"}}}],"link":"next_link"}}]}' | jq -r .flow_token)
 
+
+if [[ -z "$token_2" || "$token_2" == "null" ]]; then
+  echo "Couldn't retrieve user token (check if login is correct)"
+  exit 1
+fi
+
 # password
 token_3=$(curl -s -XPOST "${base_url}" -H "att: ${att}" "${header[@]}" \
   -d '{"flow_token":"'"${token_2}"'","subtask_inputs":[{"enter_password":{"password":"'"${password}"'","link":"next_link"},"subtask_id":"LoginEnterPassword"}]}' | jq -r .flow_token)
+
+if [[ -z "$token_3" || "$token_3" == "null" ]]; then
+  echo "Couldn't retrieve user token (check if password is correct)"
+  exit 1
+fi
 
 # finally print oauth_token and secret
 curl -s -XPOST "${base_url}" -H "att: ${att}" "${header[@]}" \
