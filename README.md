@@ -104,9 +104,10 @@ $ cp nitter.example.conf nitter.conf
 ```
 
 Edit `twitter_oauth.sh` with your Twitter account name and password.
+Before you run the script, you may need to install the `jq` package from your system's package manager
 
 ```
-$ ./twitter_oauth.sh | tee -a guest_accounts.jsonl
+./twitter_oauth.sh | tee -a guest_accounts.json
 ```
 
 Set your hostname, port, HMAC key, https (must be correct for cookies), and

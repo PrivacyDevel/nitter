@@ -33,4 +33,4 @@ token_3=$(curl -s -XPOST "${base_url}" -H "att: ${att}" "${header[@]}" \
 # finally print oauth_token and secret
 curl -s -XPOST "${base_url}" -H "att: ${att}" "${header[@]}" \
   -d '{"flow_token":"'"${token_3}"'","subtask_inputs":[{"check_logged_in_account":{"link":"AccountDuplicationCheck_false"},"subtask_id":"AccountDuplicationCheck"}]}' | \
-  jq -c '.subtasks[0]|if(.open_account) then {oauth_token: .open_account.oauth_token, oauth_token_secret: .open_account.oauth_token_secret} else empty end'
+  jq -c '.subtasks[0]|if(.open_account) then [{oauth_token: .open_account.oauth_token, oauth_token_secret: .open_account.oauth_token_secret}] else empty end'
